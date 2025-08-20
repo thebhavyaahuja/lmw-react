@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { AIAssistant } from "@/components/ai-assistant"
+import { RouteGuard } from "@/components/route-guard"
 import { Plus, BarChart3, Eye } from "lucide-react"
 
 const courses = [
@@ -42,7 +43,7 @@ const courses = [
 
 export default function DashboardPage() {
   return (
-    <>
+    <RouteGuard allowedUserTypes={['instructor']}>
       <Header />
       {/* <AIAssistant /> */}
       <main className="pt-16 min-h-screen">
@@ -95,6 +96,6 @@ export default function DashboardPage() {
           </Link>
         </div>
       </main>
-    </>
+    </RouteGuard>
   )
 }

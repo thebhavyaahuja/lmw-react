@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react" 
 import { Header } from "@/components/header"
+import { RouteGuard } from "@/components/route-guard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
@@ -115,7 +116,10 @@ export default function ChatPage() {
   }
 
   return (
-    <>
+    <RouteGuard>
+      <Header />
+      return (
+    <RouteGuard>
       <Header />
       <main className="pt-16 min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         {/* CHANGED: Container padding is now conditional */}
@@ -229,6 +233,6 @@ export default function ChatPage() {
           </Card>
         </div>
       </main>
-    </>
+    </RouteGuard>
   )
 }

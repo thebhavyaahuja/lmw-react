@@ -1,5 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { AuthProvider } from "@/hooks/use-auth"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">{children}</div>
+        <AuthProvider>
+          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   )

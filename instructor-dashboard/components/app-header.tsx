@@ -1,7 +1,8 @@
 "use client"
 
-import { MessageSquare, BookMarked, LayoutDashboard, User, Zap, Upload, Bell } from "lucide-react"
+import { MessageSquare, BookMarked, LayoutDashboard, User, Zap, Upload, Bell, LogOut } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -13,6 +14,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { useAuth } from "@/hooks/use-auth"
 
 const navigationItems = [
   {
@@ -39,6 +51,21 @@ const navigationItems = [
 
 export function AppHeader() {
   const pathname = usePathname()
+  const { user, logout } = useAuth()
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false)
+
+  if (!user) return null
+
+  const userInitials = `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true)
+  }
+
+  const handleLogoutConfirm = async () => {
+    setShowLogoutDialog(false)
+    await logout()
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-slate-200/30 h-14">
@@ -81,16 +108,24 @@ export function AppHeader() {
             </Badge>
           </Button>
 
+          <Button variant="outline" size="sm" className="gap-2" onClick={handleLogoutClick}>
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
+
           {/* Profile Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2 px-2 py-1 h-9 hover:bg-slate-100/60">
                 <Avatar className="h-6 w-6">
                   <AvatarFallback className="text-xs font-medium bg-gradient-to-br from-slate-100 to-slate-200">
-                    JD
+                    {userInitials}
                   </AvatarFallback>
                 </Avatar>
-                <span className="font-medium text-slate-700 text-sm">John</span>
+                <span className="font-medium text-slate-700 text-sm">{user.firstName}</span>
+                <Badge variant="outline" className="text-xs">
+                  {user.userType}
+                </Badge>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 mt-2">
@@ -100,14 +135,28 @@ export function AppHeader() {
                   Profile & Settings
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <span>Sign out</span>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sign out</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to sign out? You'll need to sign in again to access your account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLogoutConfirm}>
+              Sign out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </header>
   )
 }

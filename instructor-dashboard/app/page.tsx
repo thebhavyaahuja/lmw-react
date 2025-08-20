@@ -1,8 +1,51 @@
-import React from 'react';
+"use client"
+
+import React, { useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/use-auth';
+import { AuthModal } from '@/components/auth-modal';
+import { useRouter } from 'next/navigation';
 
 const LandingPage = () => {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+  const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'login' | 'signup' }>({
+    isOpen: false,
+    mode: 'login'
+  });
+
+  // Redirect authenticated users
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.userType === 'instructor') {
+        router.push('/dashboard');
+      } else {
+        router.push('/chat'); // or wherever learners should go
+      }
+    }
+  }, [user, isLoading, router]);
+
+  // Don't render anything while checking auth or if user is authenticated
+  if (isLoading || user) {
+    return null;
+  }
+
+  const openAuthModal = (mode: 'login' | 'signup') => {
+    setAuthModal({ isOpen: true, mode });
+  };
+
+  const closeAuthModal = () => {
+    setAuthModal({ isOpen: false, mode: 'login' });
+  };
+
+  const switchAuthMode = () => {
+    setAuthModal(prev => ({ 
+      ...prev, 
+      mode: prev.mode === 'login' ? 'signup' : 'login' 
+    }));
+  };
+
   return (
     <div className="h-screen w-screen overflow-hidden relative">
       {/* Smooth diagonal gradient background - matching the original mint to lavender blend */}
@@ -30,10 +73,16 @@ const LandingPage = () => {
           <span className="text-xl font-semibold text-purple-600">Learning Middleware</span>
         </div>
         <div className="flex gap-4">
-          <button className="px-6 py-2.5 bg-green-200 text-green-800 rounded-full font-medium border border-green-300 hover:bg-green-300 transition-all duration-200 shadow-sm">
+          <button 
+            onClick={() => openAuthModal('login')}
+            className="px-6 py-2.5 bg-green-200 text-green-800 rounded-full font-medium border border-green-300 hover:bg-green-300 transition-all duration-200 shadow-sm"
+          >
             Log In
           </button>
-          <button className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-full font-medium hover:from-purple-700 hover:to-purple-800 transition-all duration-200 shadow-md">
+          <button 
+            onClick={() => openAuthModal('signup')}
+            className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-full font-medium hover:from-purple-700 hover:to-purple-800 transition-all duration-200 shadow-md"
+          >
             Sign Up
           </button>
         </div>
@@ -92,6 +141,14 @@ const LandingPage = () => {
           </h2>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModal.isOpen}
+        onClose={closeAuthModal}
+        mode={authModal.mode}
+        onSwitchMode={switchAuthMode}
+      />
     </div>
   );
 };
