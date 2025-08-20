@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 // import { Badge } from "@/components/ui/badge"
 import ReactMarkdown from "react-markdown";
-import { Send, Bot, User, Sparkles, BookOpen, Users, Target, Lightbulb, Loader2 } from "lucide-react"
+import { Send, Bot, User, Sparkles, BookOpen, Users, Target, Lightbulb, Loader2, ChevronDown, ChevronRight } from "lucide-react"
 
 interface Message {
   id: string
@@ -44,6 +44,7 @@ export default function ChatPage() {
   ])
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set())
   const messagesEndRef = useRef<HTMLDivElement>(null) // CHANGED: Added ref for auto-scrolling
 
   // CHANGED: Logic to determine if the conversation has started
@@ -53,6 +54,18 @@ export default function ChatPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
+
+  const toggleSources = (messageId: string) => {
+    setExpandedSources(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(messageId)) {
+        newSet.delete(messageId)
+      } else {
+        newSet.add(messageId)
+      }
+      return newSet
+    })
+  }
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return
@@ -165,10 +178,24 @@ export default function ChatPage() {
                       </div>
                       {message.sources && message.sources.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-green-200">
-                          <h4 className="font-semibold text-sm mb-2">Sources:</h4>
-                          <pre className="bg-green-50 p-2 rounded-md text-xs whitespace-pre-wrap">
-                            {JSON.stringify(message.sources, null, 2)}
-                          </pre>
+                          <button
+                            onClick={() => toggleSources(message.id)}
+                            className="flex items-center gap-2 text-sm font-semibold text-green-700 hover:text-green-800 transition-colors"
+                          >
+                            {expandedSources.has(message.id) ? (
+                              <ChevronDown className="h-4 w-4" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4" />
+                            )}
+                            Sources ({message.sources.length})
+                          </button>
+                          {expandedSources.has(message.id) && (
+                            <div className="mt-2">
+                              <pre className="bg-green-50 p-2 rounded-md text-xs whitespace-pre-wrap">
+                                {JSON.stringify(message.sources, null, 2)}
+                              </pre>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
