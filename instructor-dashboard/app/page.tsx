@@ -28,11 +28,11 @@ const LandingPage = () => {
           <div className="relative z-10 max-w-6xl mx-auto px-6 pt-2">
             <h1 className="text-4xl md:text-6xl font-bold text-purple-700 leading-tight">
               Turn your learners' outcomes into{" "}
-              <span className="relative inline-block border-2 border-dashed border-purple-700 px-3 py-1 my-2 rounded-full">
+              <span className="relative inline-block border-2 border-dashed border-purple-700 px-3 py-1 my-2 rounded-full hover:bg-purple-600 hover:text-green-200 transition-colors">
                 adaptive learning
               </span>{" "}
               experiences in{" "}
-              <span className="relative inline-block border-2 border-dashed border-purple-700 px-3 py-1 rounded-full">
+              <span className="relative inline-block border-2 border-dashed border-purple-700 px-3 py-1 rounded-full hover:bg-purple-600 hover:text-green-200">
                 minutes,
               </span>{" "}
               not hours.
@@ -66,12 +66,12 @@ const LandingPage = () => {
             </div>
             <div className="text-right mt-2">
               <h2 className="text-4xl md:text-6xl font-bold text-purple-100 leading-tight">
-                Learn your{" "}
-                <span className="relative inline-block border-2 border-dashed border-purple-100 px-3 py-1 my-2 rounded-full">
-                  way, at your pace
+                Learn your way,{" "}
+                <span className="relative inline-block border-2 border-dashed border-purple-100 px-3 py-1 my-2 rounded-full hover:bg-green-200 hover:text-purple-600">
+                  at your pace
                 </span>{" "}
                 with content that{" "}
-                <span className="relative inline-block border-2 border-dashed border-purple-100 px-3 py-1 rounded-full">
+                <span className="relative inline-block border-2 border-dashed border-purple-100 px-3 py-1 rounded-full hover:bg-green-200 hover:text-purple-600">
                   adapts
                 </span>{" "}
                 to you.
