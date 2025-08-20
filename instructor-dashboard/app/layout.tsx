@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "InstructorPro - Modern Teaching Platform",
+  title: "Learning Middleware",
   description: "Create, manage, and deliver exceptional educational content",
     generator: 'v0.app'
 }

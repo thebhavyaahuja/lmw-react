@@ -20,7 +20,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl text-white shadow-lg group-hover:shadow-xl transition-all duration-200">
+          <div className="p-2 bg-gradient-to-br from-green-400 to-green-800 rounded-xl text-white shadow-lg group-hover:shadow-xl transition-all duration-200">
             <GraduationCap className="h-6 w-6" />
           </div>
           <span className="text-xl font-bold text-slate-900 tracking-tight">Instructor LMW</span>

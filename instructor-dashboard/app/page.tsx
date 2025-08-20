@@ -9,7 +9,7 @@ const LandingPage = () => {
       <nav className="relative z-50 bg-white w-full px-6 py-3 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-gray-600 rounded-md"></div>
-          <span className="text-lg font-semibold text-gray-800">App Name</span>
+          <span className="text-lg font-semibold text-gray-800">Learning Middleware</span>
         </div>
         <div className="flex gap-3">
           <button className="px-6 py-2 bg-green-400 text-green-900 rounded-full font-medium hover:bg-green-500 transition-colors shadow-md">
