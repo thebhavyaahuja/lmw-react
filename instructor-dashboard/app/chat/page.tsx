@@ -5,7 +5,8 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+// import { Badge } from "@/components/ui/badge"
+import ReactMarkdown from "react-markdown";
 import { Send, Bot, User, Sparkles, BookOpen, Users, Target, Lightbulb, Loader2 } from "lucide-react"
 
 interface Message {
@@ -15,7 +16,6 @@ interface Message {
   timestamp: Date
   sources?: any[]
 }
-
 // ... (expertiseAreas and quickStarters arrays remain the same) ...
 const expertiseAreas = [
   { icon: BookOpen, label: "Curriculum Design", color: "bg-green-100 text-green-700" },
@@ -160,7 +160,9 @@ export default function ChatPage() {
                           : "bg-white border-2 border-green-100 text-green-800"
                       }`}
                     >
-                      <p className="leading-relaxed font-medium break-words">{message.content}</p>
+                      <div className="leading-relaxed font-medium break-words">
+                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                      </div>
                       {message.sources && message.sources.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-green-200">
                           <h4 className="font-semibold text-sm mb-2">Sources:</h4>
