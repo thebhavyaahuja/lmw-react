@@ -4,7 +4,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
-// import { AIAssistant } from "@/components/ai-assistant"
 import { Plus, BarChart3, Eye } from "lucide-react"
 
 const courses = [
