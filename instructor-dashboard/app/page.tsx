@@ -60,9 +60,11 @@ const LandingPage = () => {
         <div className="relative bg-purple-600 pt-4 pb-8 h-2/5 -mt-1">
           <div className="relative z-10 max-w-6xl mx-auto px-6">
             <div className="flex justify-end mb-4">
-              <button className="flex items-center gap-2 px-6 py-3 bg-green-400 text-green-900 rounded-full font-semibold hover:bg-green-500 transition-colors shadow-lg">
-                For Learners <ArrowUpRight size={18} />
-              </button>
+              <Link href="/learner">
+                <button className="flex items-center gap-2 px-6 py-3 bg-green-400 text-green-900 rounded-full font-semibold hover:bg-green-500 transition-colors shadow-lg">
+                  For Learners <ArrowUpRight size={18} />
+                </button>
+              </Link>
             </div>
             <div className="text-right mt-2">
               <h2 className="text-4xl md:text-6xl font-bold text-purple-100 leading-tight">
