@@ -1,7 +1,7 @@
 "use client"
 
-import { MessageSquare, BookMarked, LayoutDashboard, User, Zap, Upload, Bell } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { MessageSquare, BookMarked, LayoutDashboard, User, Zap, Upload, Bell, LogOut } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { deleteCookie } from "cookies-next"
 
 const navigationItems = [
   {
@@ -39,6 +40,20 @@ const navigationItems = [
 
 export function AppHeader() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleSignOut = () => {
+    if (typeof gapi !== 'undefined' && gapi.auth2) {
+      const auth2 = gapi.auth2.getAuthInstance();
+      if (auth2) {
+          auth2.signOut().then(() => {
+            console.log('User signed out.');
+          });
+      }
+    }
+    deleteCookie('googleId', { path: '/' });
+    router.push('/signin');
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-slate-200/30 h-14">
@@ -101,8 +116,9 @@ export function AppHeader() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <span>Sign out</span>
+              <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-red-500 focus:text-red-600">
+                <LogOut className="h-4 w-4" />
+                Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

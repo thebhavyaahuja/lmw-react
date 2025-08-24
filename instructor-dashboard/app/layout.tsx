@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
+import Script from "next/script"
 
 export const metadata: Metadata = {
   title: "Learning Middleware",
@@ -15,8 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-signin-client_id" content={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID} />
+      </head>
       <body>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">{children}</div>
+        <Script src="https://accounts.google.com/gsi/client" async defer />
       </body>
     </html>
   )
