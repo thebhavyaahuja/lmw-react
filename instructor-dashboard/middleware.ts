@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   console.log('Middleware running for path:', request.nextUrl.pathname);
   const googleId = request.cookies.get('googleId')?.value;
-  console.log('Google ID Cookie:', googleId);
+  // console.log('Google ID Cookie:', googleId);
 
   if (!googleId && !request.nextUrl.pathname.startsWith('/signin')) {
     return NextResponse.redirect(new URL('/signin', request.url));
