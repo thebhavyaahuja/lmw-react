@@ -1,45 +1,51 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Plus, BarChart3, Eye } from "lucide-react"
 
-const courses = [
-  {
-    id: 1,
-    title: "Introduction to Data Science",
-    description: "A comprehensive course covering Python, statistics, and machine learning fundamentals for beginners.",
-  },
-  {
-    id: 2,
-    title: "Advanced React Development",
-    description: "Deep dive into React hooks, context, performance optimization, and modern development patterns.",
-  },
-  {
-    id: 3,
-    title: "Digital Marketing Strategy",
-    description: "Learn to create effective digital marketing campaigns across multiple channels and platforms.",
-  },
-  {
-    id: 4,
-    title: "Financial Analysis Fundamentals",
-    description: "Master financial statement analysis, valuation techniques, and investment decision-making.",
-  },
-  {
-    id: 5,
-    title: "UI/UX Design Principles",
-    description: "Create intuitive and beautiful user interfaces with modern design principles and tools.",
-  },
-  {
-    id: 6,
-    title: "Machine Learning Basics",
-    description: "Introduction to machine learning algorithms, data preprocessing, and model evaluation.",
-  },
-]
+interface Course {
+  course_id: string;
+  course_name: string;
+  course_description: string;
+  created_at: string | null;
+  updated_at: string | null;
+  is_active: boolean;
+}
 
 export default function DashboardPage() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('http://10.4.25.215:8000/api/courses', {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Courses API Response:', data);
+          setCourses(data);
+        } else {
+          console.error('Failed to fetch courses:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   return (
     <>
       <Header />
@@ -53,33 +59,39 @@ export default function DashboardPage() {
 
           {/* Courses Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course) => (
-              <Card
-                key={course.id}
-                className="group hover:shadow-xl transition-all duration-300 border-0 glass-effect hover:scale-105"
-              >
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">
-                    {course.title}
-                  </CardTitle>
-                  <CardDescription className="text-slate-600 line-clamp-3">{course.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex gap-3 pt-2">
-                    <Button variant="outline" className="flex-1 gap-2 bg-transparent">
-                      <BarChart3 className="h-4 w-4" />
-                      View Analytics
-                    </Button>
-                    <Button className="flex-1 gap-2" asChild>
-                      <Link href={`/course/${course.id}`}>
-                        <Eye className="h-4 w-4" />
-                        View Course
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {loading ? (
+              <div className="col-span-full text-center text-slate-600">Loading courses...</div>
+            ) : courses.length === 0 ? (
+              <div className="col-span-full text-center text-slate-600">No courses found.</div>
+            ) : (
+              courses.map((course) => (
+                <Card
+                  key={course.course_id}
+                  className="group hover:shadow-xl transition-all duration-300 border-0 glass-effect hover:scale-105"
+                >
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">
+                      {course.course_name}
+                    </CardTitle>
+                    <CardDescription className="text-slate-600 line-clamp-3">{course.course_description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex gap-3 pt-2">
+                      <Button variant="outline" className="flex-1 gap-2 bg-transparent">
+                        <BarChart3 className="h-4 w-4" />
+                        View Analytics
+                      </Button>
+                      <Button className="flex-1 gap-2" asChild>
+                        <Link href={`/course/${course.course_id}`}>
+                          <Eye className="h-4 w-4" />
+                          View Course
+                        </Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
 
           {/* Floating Action Button - moved to left */}
