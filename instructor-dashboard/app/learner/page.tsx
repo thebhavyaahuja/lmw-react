@@ -115,12 +115,22 @@ export default function CourseDashboard() {
                                         <BarChart3 className="h-4 w-4" />
                                         View Outline
                                     </Button>
-                                    <Button className="flex-1 gap-2 bg-primary hover:bg-primary/90" asChild>
-                                        <Link href={`/learner/course/${course.id}`}>
+                                    {course.status === "not-started" ? (
+                                        <Button 
+                                            className="flex-1 gap-2 bg-primary hover:bg-primary/90"
+                                            onClick={() => handleStartCourse(course)}
+                                        >
                                             <Eye className="h-4 w-4" />
-                                            {course.status === "in-progress" ? "Continue" : "Start Course"}
-                                        </Link>
-                                    </Button>
+                                            Start Course
+                                        </Button>
+                                    ) : (
+                                        <Button className="flex-1 gap-2 bg-primary hover:bg-primary/90" asChild>
+                                            <Link href={`/learner/course/${course.id}`}>
+                                                <Eye className="h-4 w-4" />
+                                                Continue
+                                            </Link>
+                                        </Button>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>
