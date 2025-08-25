@@ -2,12 +2,12 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Bell, User, BarChart3, Eye } from "lucide-react"
 import { CourseOnboardingModal } from "@/components/learner/course-onboarding-modal"
-import Link from "next/link"
 
 // Mock data for courses
 const courses = [
@@ -66,6 +66,9 @@ export default function CourseDashboard() {
                             <h1 className="text-2xl font-bold text-slate-900">LMW.ai</h1>
                         </div>
                         <div className="flex items-center gap-4">
+                            <Link href="/learner/explore" className="text-slate-600 hover:text-slate-900">
+                                Explore Courses
+                            </Link>
                             <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-600">
                                 <Bell className="h-5 w-5" />
                             </Button>
@@ -82,6 +85,21 @@ export default function CourseDashboard() {
                 <div className="mb-12">
                     <h1 className="text-4xl font-bold text-slate-900 mb-3">My Courses</h1>
                     <p className="text-lg text-slate-600">Continue your learning journey with our comprehensive courses.</p>
+                </div>
+
+                {/* Explore More Section */}
+                <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-lg p-6 mb-8 border border-primary/20">
+                    <div className="flex flex-col md:flex-row items-center justify-between">
+                        <div className="mb-4 md:mb-0">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Ready to learn something new?</h2>
+                            <p className="text-slate-600">Discover thousands of courses across various topics and skill levels.</p>
+                        </div>
+                        <Button asChild className="bg-primary hover:bg-primary/90 px-8">
+                            <Link href="/learner/explore">
+                                Explore All Courses
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Course Grid */}
